@@ -128,6 +128,8 @@ TODO
 ## Issues
 
 - The plugin "kie-maven-plugin" is not configured to be run in Eclipse (see similar in Kogito maven plugin: https://issues.redhat.com/browse/KOGITO-1786)
+- The "Using a project Maven repository" approach does not work when the KJAR uses an internal POM parent
+- The "Using a plugin Maven" approach didn't work for me
 
 ## Source Projects
 
