@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>${kjar.groupId}</groupId>
   <artifactId>${kjar.artifactId}</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>2.0-SNAPSHOT</version>
   <packaging>kjar</packaging>
   <name>Evaluation_Process</name>
   <description>Getting started Business Process for evaluating employees</description>
