@@ -20,17 +20,17 @@
     <maven.dependency.version>3.1.1</maven.dependency.version>
     <maven.install.version>3.0.0-M1</maven.install.version>
 
-    <org.kie.version>7.23.0.Final-redhat-00003</org.kie.version>
+    <org.kie.version>7.30.0.Final-redhat-00003</org.kie.version>
     <ba.bom.version>7.6.0.redhat-00004</ba.bom.version>
     <slf4j.version>1.7.25.redhat-00001</slf4j.version>
 
     <kjar.groupId>com.company</kjar.groupId>
-    <kjar.artifactId>business-application-kjar</kjar.artifactId>
+    <kjar.artifactId>evaluation</kjar.artifactId>
   </properties>
 
   <modules>
-    <module>business-application-kjar-1.0</module>
-    <module>business-application-kjar-2.0</module>
+    <module>evaluation-process-kjar</module>
+    <module>evaluation-process-kjar-2</module>
     <module>query-ext</module>
   </modules>
 

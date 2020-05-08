@@ -12,5 +12,6 @@ I need to test each approach and deploy it **locally** and also **in Openshift**
 
 ## Source Projects
 
-- The **business-application-kjar** has been cloned from (https://github.com/ba-spring/business-application-kjar)[https://github.com/ba-spring/business-application-kjar]
-- The **query-ext** has been cloned from (https://github.com/ba-spring/business-application-kjar)[https://github.com/ba-spring/business-application-kjar]
+- Evaluation KJar 1: https://github.com/kie-springboot/evaluation-process-kjar
+- Evaluation KJar 2: https://github.com/kie-springboot/evaluation-process-kjar-2
+- Search Var Extension (query-ext): https://github.com/kie-springboot/jbpm-search-var-extension
