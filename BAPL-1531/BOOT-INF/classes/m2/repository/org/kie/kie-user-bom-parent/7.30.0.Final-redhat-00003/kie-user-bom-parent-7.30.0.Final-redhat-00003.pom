@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.jboss</groupId>
+    <artifactId>jboss-parent</artifactId>
+    <!-- Keep in sync with the parent version in ../pom.xml (kie-parent)  -->
+    <version>31</version>
+    <relativePath></relativePath>
+  </parent>
+
+  <groupId>org.kie</groupId>
+  <artifactId>kie-user-bom-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>7.30.0.Final-redhat-00003</version>
+
+  <name>KIE (Drools, jBPM, OptaPlanner) user BOM parent</name>
+  <description>The user BOM parent is used to hold common configuration for all user BOMs. User BOMs can not directly extend
+    kie-parent as it brings lots of 3rd party versions in the dependencyManagement which is not desirable for user BOMs.</description>
+
+  <url>http://www.kiegroup.org</url>
+  <inceptionYear>2001</inceptionYear>
+  <organization>
+    <name>JBoss by Red Hat</name>
+    <url>http://www.jboss.org/</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:https://github.com/kiegroup/droolsjbpm-build-bootstrap.git</connection>
+    <developerConnection>scm:git:git@github.com:kiegroup/droolsjbpm-build-bootstrap.git</developerConnection>
+    <url>https://github.com/kiegroup/droolsjbpm-build-bootstrap</url>
+  </scm>
+  <ciManagement>
+    <system>jenkins</system>
+    <url>https://jenkins-kieci.rhcloud.com</url>
+  </ciManagement>
+
+  <properties>
+    <version.org.kie>${project.version}</version.org.kie>
+    <jboss.releases.repo.url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</jboss.releases.repo.url>
+    <jboss.snapshots.repo.url>https://repository.jboss.org/nexus/content/repositories/snapshots/</jboss.snapshots.repo.url>
+  </properties>
+
+
+
+  <!-- IMPORTANT: Do not declare any dependencies or dependency versions here! This POM should not contain any! -->
+  <dependencyManagement></dependencyManagement>
+  <build>
+    <pluginManagement></pluginManagement>
+  </build>
+  <!-- Intentionally empty -->
+  <!-- Intentionally empty -->
+
+</project>

@@ -3,7 +3,5 @@
           xmlns="http://maven.apache.org/SETTINGS/1.1.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <offline>true</offline>
-    <localRepository>
-        ${project.basedir}/src/main/resources/m2/repository
-    </localRepository>
+    <localRepository>${project.basedir}/src/main/resources/m2/repository</localRepository>
 </settings>

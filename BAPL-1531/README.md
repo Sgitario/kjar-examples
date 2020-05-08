@@ -32,20 +32,18 @@ mvn clean install
 
 There are two approaches to create the FatJar output:
 
-- Using a project Maven repository
+**- Using a project Maven repository**
 
 ```sh
 mvn clean install -PprojectRepository
 ```
 
-This will compile the **evaluation-process** versions and install its dependency into the **kie-spring-boot-example** maven local repository located into _kie-spring-boot-example/src/main/resources/m2/repository_. This is done by using this maven plugins:
+This will compile the **KJAR** child projects and then the **kie-spring-boot-example** build will retrieve its dependencies and install them inside the final FatJar at _BOOT-INFO/classes/m2/repository_. This is done by using this maven plugins:
 
 - maven-dependency-plugin: to copy the KJar dependency
 - maven-install-plugin: to install the KJar dependency into a Maven repository
 
-| Note that following this approach, the child KJar is responsible to install itself to a maven repository, but this can be easily changed by moving the above maven plugins to another maven project and selecting the KJar childs and versions.  
-
-- Using a plugin Maven:
+**- Using a plugin Maven:**
 
 ```sh
 mvn clean install -PusingPlugin
@@ -58,31 +56,50 @@ Not working...
 Let's see the content of our FatJar **kie-spring-boot-example.jar**:
 
 ```sh
-jar tf kie-spring-service-multi-kjar/target/kie-spring-boot-example.jar | grep evaluation
+jar tf kie-spring-service-multi-kjar/target/kie-spring-boot-example.jar | grep kjar-examples
 ```
 
-Expected output:
+Expected output (depending on the KJAR you deployed):
 
 ```sh
-BOOT-INF/classes/m2/repository/com/sgitario/kjar-examples/evaluation/
-BOOT-INF/classes/m2/repository/com/sgitario/kjar-examples/evaluation/2.0-SNAPSHOT/
-BOOT-INF/classes/m2/repository/com/sgitario/kjar-examples/evaluation/1.0-SNAPSHOT/
+BOOT-INF/classes/m2/repository/com/sgitario/kjar-examples/xxx/
 ...
 ```
 
 In order to continue, let's delete the child KJar dependencies from our local instance to ensure we're using the right location packaged inside **kie-spring-boot-example-jar**:
 
 ```sh
-rm -rf ${HOME}/.m2/repository/com/sgitario/kjar-examples/evaluation
+rm -rf ${HOME}/.m2/repository/com/sgitario/kjar-examples
 ```
 
 ### Run in Integration Test
 
+Extract the Maven repository from the JAR:
+
+```
+rm -rf BOOT-INF
+jar xf kie-spring-service-multi-kjar/target/kie-spring-boot-example.jar BOOT-INF/classes/m2
+```
+
+Prepare the Maven settings pointing to the BOOT-INF folder, _settings.xml_:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd"
+          xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <offline>true</offline>
+    <localRepository>/home/jcarvaja/sources/kjar-examples/kjar-examples/BAPL-1531/BOOT-INF/classes/m2/repository</localRepository>
+</settings>
+```
+
 When doing the previous step, we can quickly check everything is well packaged by simply doing:
 
 ```sh
-java -jar kie-spring-service-multi-kjar/target/kie-spring-boot-example.jar -Dkie.maven.settings.custom=kie-spring-service-multi-kjar/target/classes/settings.xml
+java -Dkie.maven.settings.custom=/home/jcarvaja/sources/kjar-examples/kjar-examples/BAPL-1531/settings.xml -jar kie-spring-service-multi-kjar/target/kie-spring-boot-example.jar
 ```
+
+| kie.maven.settings.custom must point to a full path!
 
 | Note that the kie-spring-service-multi-kjar/target/classes/settings.xml is the local Maven repository settings which is auto generated in the previous step.
 
@@ -107,6 +124,10 @@ mvn clean spring-boot:run
 ```
 
 TODO 
+
+## Issues
+
+- The plugin "kie-maven-plugin" is not configured to be run in Eclipse (see similar in Kogito maven plugin: https://issues.redhat.com/browse/KOGITO-1786)
 
 ## Source Projects
 

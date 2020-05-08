@@ -21,46 +21,10 @@
   </configuration>
   <containers>
     <container>
-      <containerId>evaluation-2.0-SNAPSHOT</containerId>
+      <containerId>kjar-without-parent-1.0-SNAPSHOT</containerId>
       <releaseId>
         <groupId>com.sgitario.kjar-examples</groupId>
-        <artifactId>evaluation</artifactId>
-        <version>2.0-SNAPSHOT</version>
-      </releaseId>
-      <status>STARTED</status>
-      <configItems/>
-      <messages/>
-      <containerAlias>evaluation-business-application-kjar</containerAlias>
-    </container>
-    <container>
-      <containerId>evaluation-kjar-1_0-SNAPSHOT</containerId>
-      <releaseId>
-        <groupId>com.sgitario.kjar-examples</groupId>
-        <artifactId>evaluation</artifactId>
-        <version>1.0-SNAPSHOT</version>
-      </releaseId>
-      <status>STARTED</status>
-      <configItems/>
-      <messages/>
-      <containerAlias>evaluation-business-application-kjar</containerAlias>
-    </container>
-    <container>
-      <containerId>evaluation-kjar-2_0-SNAPSHOT</containerId>
-      <releaseId>
-        <groupId>com.sgitario.kjar-examples</groupId>
-        <artifactId>evaluation</artifactId>
-        <version>2.0-SNAPSHOT</version>
-      </releaseId>
-      <status>STARTED</status>
-      <configItems/>
-      <messages/>
-      <containerAlias>evaluation-business-application-kjar</containerAlias>
-    </container>
-    <container>
-      <containerId>evaluation-1.0-SNAPSHOT</containerId>
-      <releaseId>
-        <groupId>com.sgitario.kjar-examples</groupId>
-        <artifactId>evaluation</artifactId>
+        <artifactId>kjar-without-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
       </releaseId>
       <status>STARTED</status>

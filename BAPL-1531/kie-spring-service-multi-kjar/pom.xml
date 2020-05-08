@@ -18,6 +18,9 @@
 
   <properties>
     <start-class>org.kie.server.springboot.samples.KieServerApplication</start-class>
+    
+    <kjar.artifactId>kjar-without-parent</kjar.artifactId>
+    <kjar.version>1.0-SNAPSHOT</kjar.version>
   </properties>
 
   <dependencyManagement>
@@ -38,6 +41,63 @@
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.sgitario.kjar-examples</groupId>
+                  <artifactId>${kjar.artifactId}</artifactId>
+                  <version>${kjar.version}</version>
+                  <type>jar</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.sgitario.kjar-examples</groupId>
+                  <artifactId>${kjar.artifactId}</artifactId>
+                  <version>${kjar.version}</version>
+                  <type>pom</type>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/artifacts</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-install-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>install-kjar</id>
+                <goals>
+                  <goal>install-file</goal>
+                </goals>
+                <phase>prepare-package</phase>
+                <configuration>
+                  <file>${project.build.directory}/artifacts/${kjar.artifactId}-${kjar.version}.jar</file>
+                  <groupId>com.sgitario.kjar-examples</groupId>
+                  <artifactId>${kjar.artifactId}</artifactId>
+                  <version>${kjar.version}</version>
+                  <packaging>jar</packaging>
+                  <localRepositoryPath>${build.directory}/classes/m2/repository</localRepositoryPath>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>usingPlugin</id>
@@ -56,8 +116,7 @@
                 <configuration>
                   <settingsFile>/opt/maven/conf/settings.xml</settingsFile>
                   <artifacts>
-                    <gav>com.sgitario.kjar-examples:${kjar.artifactId}:1.0-SNAPSHOT</gav>
-                    <gav>com.sgitario.kjar-examples:${kjar.artifactId}:2.0-SNAPSHOT</gav>
+                    <gav>com.sgitario.kjar-examples:${kjar.artifactId}:${kjar.version}</gav>
                   </artifacts>
                   <outputDirectory>${build.directory}/classes/m2/repository</outputDirectory>
                 </configuration>
