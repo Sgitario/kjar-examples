@@ -16,6 +16,76 @@
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
+  
+  <profiles>
+    <profile>
+      <id>projectRepository</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${project.parent.groupId}</groupId>
+                  <artifactId>${project.artifactId}</artifactId>
+                  <version>${project.version}</version>
+                  <type>${project.packaging}</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>${project.parent.groupId}</groupId>
+                  <artifactId>${kjar.artifactId}</artifactId>
+                  <version>${project.version}</version>
+                  <type>pom</type>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/repository</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-install-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>install-${project.artifactId}</id>
+                <goals>
+                  <goal>install-file</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <file>${project.build.directory}/repository/${project.artifactId}-${project.version}.jar</file>
+                  <groupId>${project.parent.groupId}</groupId>
+                  <artifactId>${project.artifactId}</artifactId>
+                  <version>${project.version}</version>
+                  <packaging>${project.packaging}</packaging>
+                  <localRepositoryPath>../kie-spring-service-multi-kjar/src/main/resources/m2/repository
+                  </localRepositoryPath>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>usingPlugin</id>
+    </profile>
+  </profiles>
 
   <dependencies>
     <dependency>
@@ -51,66 +121,13 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  
   <build>
     <plugins>
       <plugin>
         <groupId>org.kie</groupId>
         <artifactId>kie-maven-plugin</artifactId>
         <extensions>true</extensions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <artifactItems>
-            <artifactItem>
-              <groupId>${project.parent.groupId}</groupId>
-              <artifactId>${project.artifactId}</artifactId>
-              <version>${project.version}</version>
-              <type>${project.packaging}</type>
-            </artifactItem>
-            <artifactItem>
-              <groupId>${project.parent.groupId}</groupId>
-              <artifactId>${kjar.artifactId}</artifactId>
-              <version>${project.version}</version>
-              <type>pom</type>
-            </artifactItem>
-          </artifactItems>
-          <outputDirectory>${project.build.directory}/repository</outputDirectory>
-          <overWriteReleases>false</overWriteReleases>
-          <overWriteSnapshots>true</overWriteSnapshots>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-install-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>install-${project.artifactId}</id>
-            <goals>
-              <goal>install-file</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <file>${project.build.directory}/repository/${project.artifactId}-${project.version}.jar</file>
-              <groupId>${project.parent.groupId}</groupId>
-              <artifactId>${project.artifactId}</artifactId>
-              <version>${project.version}</version>
-              <packaging>${project.packaging}</packaging>
-              <localRepositoryPath>../kie-spring-service-multi-kjar/src/main/resources/m2/repository
-              </localRepositoryPath>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
     <resources>
