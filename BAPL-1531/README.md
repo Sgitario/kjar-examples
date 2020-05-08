@@ -10,9 +10,15 @@ There are two approaches to do so:
 
 I need to test each approach and deploy it **locally** and also **in Openshift** (as the customer is using it this way for production)
 
-## Steps
 
-1. Compile BAPL1531 parent:
+## Steps 
+
+- Compile and package artifacts
+- Run in Integration Test
+- Run into a standalone kie server (TODO)
+- Run into Openshift (TODO)
+
+### Compile BAPL1531 parent:
 
 ```sh
 mvn clean install
@@ -39,6 +45,44 @@ BOOT-INF/classes/m2/repository/com/sgitario/kjar-examples/evaluation/2.0-SNAPSHO
 BOOT-INF/classes/m2/repository/com/sgitario/kjar-examples/evaluation/1.0-SNAPSHOT/
 ...
 ```
+
+In order to continue, let's delete the child KJar dependencies from our local instance to ensure we're using the right location packaged inside **kie-spring-boot-example-jar**:
+
+```sh
+rm -rf ${HOME}/.m2/repository/com/sgitario/kjar-examples/evaluation
+```
+
+### Run in Integration Test
+
+When doing the previous step, we can quickly check everything is well packaged by simply doing:
+
+```sh
+java -jar kie-spring-service-multi-kjar/target/kie-spring-boot-example.jar -Dkie.maven.settings.custom=kie-spring-service-multi-kjar/target/classes/settings.xml
+```
+
+| Note that the kie-spring-service-multi-kjar/target/classes/settings.xml is the local Maven repository settings which is auto generated in the previous step.
+
+This will start a Kie Server, the expected output is:
+
+```sh
+...
+[main] INFO org.kie.server.springboot.samples.KieServerDeployer - already deployed KieContainerResource [containerId=evaluation-kjar-2_0-SNAPSHOT, releaseId=com.sgitario.kjar-examples:evaluation:2.0-SNAPSHOT, resolvedReleaseId=com.sgitario.kjar-examples:evaluation:2.0-SNAPSHOT, status=STARTED]
+...
+[main] INFO org.kie.server.springboot.samples.KieServerDeployer - already deployed KieContainerResource [containerId=evaluation-kjar-1_0-SNAPSHOT, releaseId=com.sgitario.kjar-examples:evaluation:1.0-SNAPSHOT, resolvedReleaseId=com.sgitario.kjar-examples:evaluation:1.0-SNAPSHOT, status=STARTED]
+...
+```
+
+### Run into a standalone kie server
+
+Start a local Kie Server instance:
+
+```sh
+git clone https://github.com/kiegroup/droolsjbpm-integration
+cd droolsjbpm-integration/kie-spring-boot/kie-spring-boot-samples/kie-server-spring-boot-sample
+mvn clean spring-boot:run
+```
+
+TODO 
 
 ## Source Projects
 

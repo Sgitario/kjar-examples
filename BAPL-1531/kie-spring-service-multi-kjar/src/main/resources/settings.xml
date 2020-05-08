@@ -4,7 +4,6 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <offline>true</offline>
     <localRepository>
-        ${user.home}/Documents/Projects/DB/multi-kar/kie-spring-multi/src/main/resources/m2/repository
+        ${project.basedir}/src/main/resources/m2/repository
     </localRepository>
-    <!--  <localRepository>/deployments/maven</localRepository>-->
 </settings>

@@ -3,12 +3,12 @@
   <configuration>
     <configItems>
       <config-item>
-        <name>org.kie.server.location</name>
-        <value>http://localhost:0/rest/server</value>
+        <name>org.kie.server.mode</name>
+        <value>DEVELOPMENT</value>
         <type>java.lang.String</type>
       </config-item>
       <config-item>
-        <name>org.kie.server.controller</name>
+        <name>org.kie.server.location</name>
         <value></value>
         <type>java.lang.String</type>
       </config-item>
@@ -18,8 +18,8 @@
         <type>java.lang.String</type>
       </config-item>
       <config-item>
-        <name>org.kie.server.mode</name>
-        <value>DEVELOPMENT</value>
+        <name>org.kie.server.controller</name>
+        <value></value>
         <type>java.lang.String</type>
       </config-item>
     </configItems>

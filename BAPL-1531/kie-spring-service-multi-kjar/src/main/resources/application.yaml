@@ -8,14 +8,14 @@ deployment:
   kjars:
     - alias: evaluation-business-application-kjar
       artifactId: evaluation
-      containerId: evaluation-kjar-1_0-SNAPSHOT
-      groupId: com.company
-      version: 1.0.0-SNAPSHOT
+      containerId: evaluation-1.0-SNAPSHOT
+      groupId: com.sgitario.kjar-examples
+      version: 1.0-SNAPSHOT
     - alias: evaluation-business-application-kjar
       artifactId: evaluation
-      containerId: evaluation-kjar-2_0-SNAPSHOT
-      groupId: com.company
-      version: 2.0.0-SNAPSHOT
+      containerId: evaluation-2.0-SNAPSHOT
+      groupId: com.sgitario.kjar-examples
+      version: 2.0-SNAPSHOT
 jbpm:
   executor:
     enabled: false
