@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd"
+          xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <offline>true</offline>
+    <localRepository>
+        ${user.home}/Documents/Projects/DB/multi-kar/kie-spring-multi/src/main/resources/m2/repository
+    </localRepository>
+    <!--  <localRepository>/deployments/maven</localRepository>-->
+</settings>

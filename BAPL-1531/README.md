@@ -10,6 +10,36 @@ There are two approaches to do so:
 
 I need to test each approach and deploy it **locally** and also **in Openshift** (as the customer is using it this way for production)
 
+## Steps
+
+1. Compile BAPL1531 parent:
+
+```sh
+mvn clean install
+```
+
+This will compile the **evaluation-process** versions and install its dependency into the **kie-spring-boot-example** maven local repository located into _kie-spring-boot-example/src/main/resources/m2/repository_. This is done by using this maven plugins:
+
+- maven-dependency-plugin: to copy the KJar dependency
+- maven-install-plugin: to install the KJar dependency into a Maven repository
+
+| Note that following this approach, the child KJar is responsible to install itself to a maven repository, but this can be easily changed by moving the above maven plugins to another maven project and selecting the KJar childs and versions.  
+
+Let's see the content of our FatJar **kie-spring-boot-example.jar**:
+
+```sh
+jar tf kie-spring-service-multi-kjar/target/kie-spring-boot-example.jar | grep evaluation
+```
+
+Expected output:
+
+```sh
+BOOT-INF/classes/m2/repository/com/sgitario/kjar-examples/evaluation/
+BOOT-INF/classes/m2/repository/com/sgitario/kjar-examples/evaluation/2.0-SNAPSHOT/
+BOOT-INF/classes/m2/repository/com/sgitario/kjar-examples/evaluation/1.0-SNAPSHOT/
+...
+```
+
 ## Source Projects
 
 - Evaluation KJar 1: https://github.com/kie-springboot/evaluation-process-kjar
