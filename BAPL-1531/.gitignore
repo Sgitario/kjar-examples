@@ -3,3 +3,5 @@
 .vscode
 target
 settings.xml
+BOOT-INF
+repository

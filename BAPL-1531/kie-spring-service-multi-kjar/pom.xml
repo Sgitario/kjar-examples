@@ -18,7 +18,7 @@
 
   <properties>
     <start-class>org.kie.server.springboot.samples.KieServerApplication</start-class>
-    
+
     <kjar.artifactId>kjar-without-parent</kjar.artifactId>
     <kjar.version>1.0-SNAPSHOT</kjar.version>
   </properties>
@@ -37,10 +37,10 @@
 
   <profiles>
     <profile>
+      <id>offline</id>
+    </profile>
+    <profile>
       <id>projectRepository</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <build>
         <plugins>
           <plugin>
@@ -72,7 +72,8 @@
               </artifactItems>
               <outputDirectory>${project.build.directory}/artifacts</outputDirectory>
               <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>true</overWriteSnapshots>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
             </configuration>
           </plugin>
           <plugin>
@@ -114,7 +115,7 @@
                   <goal>offliner</goal>
                 </goals>
                 <configuration>
-                  <settingsFile>/opt/maven/conf/settings.xml</settingsFile>
+                  <settingsFile>/home/jcarvaja/sources/kjar-examples/kjar-examples/BAPL-1531/settings.xml</settingsFile>
                   <artifacts>
                     <gav>com.sgitario.kjar-examples:${kjar.artifactId}:${kjar.version}</gav>
                   </artifacts>

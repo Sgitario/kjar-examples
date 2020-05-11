@@ -24,39 +24,92 @@ mvn clean install
 ## Steps 
 
 - Compile and package artifacts
-- Run in Integration Test
+- Run in Integration Test (PENDING)
 - Run into a standalone kie server (TODO)
 - Run into Openshift (TODO)
 
-### Compile:
+## Solutions
 
 There are two approaches to create the FatJar output:
 
-**- Using a project Maven repository**
+###Using a project Maven repository
+
+This approach will make use of the next Maven plugins to create the Maven repository in offline mode:
+
+- maven-dependency-plugin: to copy the KJar dependency
+- maven-install-plugin: to install the KJar dependency into a Maven repository
+
+To compile the project using this solution, run:
 
 ```sh
 mvn clean install -PprojectRepository
 ```
 
-This will compile the **KJAR** child projects and then the **kie-spring-boot-example** build will retrieve its dependencies and install them inside the final FatJar at _BOOT-INFO/classes/m2/repository_. This is done by using this maven plugins:
+This command will prepare the offline Maven repository with the **KJAR** child project(s) and also the Kie Server application in Spring Boot. 
 
-- maven-dependency-plugin: to copy the KJar dependency
-- maven-install-plugin: to install the KJar dependency into a Maven repository
+| Note that the offline Maven repository will include the KJAR child project, not all the dependencies so this solution requires network connection at runtime.
 
-**- Using a plugin Maven:**
+In order to create the Docker image:
+
+```sh
+sh docker/prepare_repository.sh kie-spring-service-multi-kjar/target/classes/m2/repository
+docker build -t kie_server_project_repository -f Dockerfile.projectRepository .
+```
+
+And run the image:
+
+```sh
+docker run kie_server_project_repository
+```
+
+Expected output:
+
+```sh
+[main] INFO org.kie.server.services.impl.KieServerImpl - Container kjar-without-parent-1.0-SNAPSHOT (for release id com.sgitario.kjar-examples:kjar-without-parent:1.0-SNAPSHOT) successfully started
+```
+
+###Using a plugin Maven
 
 ```sh
 mvn clean install -PusingPlugin
 ```
 
-Not working...
+Not working... Still in progress...
+
+###Using the dependency plugin
+
+This approach will use the dependency plugin in order to first retrieve the dependencies in offline:
+
+```sh
+mvn -Dmaven.repo.local=repository -Poffline dependency:go-offline clean install
+```
+
+ And we compile our sources using this offline repository:
+
+```sh
+mvn -Dmaven.repo.local=repository -Poffline 
+```
+
+In order to create the Docker image:
+
+```sh
+docker build -t kie_server_offline -f Dockerfile.offline .
+```
+
+And run the image:
+
+```sh
+docker run kie_server_offline
+```
+
 
 ### Sanity Checks
 
 Let's see the content of our FatJar **kie-spring-boot-example.jar**:
 
 ```sh
-jar tf kie-spring-service-multi-kjar/target/kie-spring-boot-example.jar | grep kjar-examples
+ls -R kie-spring-service-multi-kjar/target/classes/m2/repository | grep kjar-examples
+kjar-examples
 ```
 
 Expected output (depending on the KJAR you deployed):
@@ -128,7 +181,6 @@ TODO
 ## Issues
 
 - The plugin "kie-maven-plugin" is not configured to be run in Eclipse (see similar in Kogito maven plugin: https://issues.redhat.com/browse/KOGITO-1786)
-- The "Using a project Maven repository" approach does not work when the KJAR uses an internal POM parent
 - The "Using a plugin Maven" approach didn't work for me
 
 ## Source Projects
