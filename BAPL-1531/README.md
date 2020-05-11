@@ -25,15 +25,12 @@ mvn clean install
 ## Steps 
 
 - Compile and package artifacts
-- Run in Integration Test (PENDING)
-- Run into a standalone kie server (TODO)
+- Run into a standalone kie server using Docker
 - Run into Openshift (TODO)
 
 ## Solutions
 
-There are two approaches to create the FatJar output:
-
-###Using a project Maven repository
+###Approach 1: Using a project Maven repository
 
 This approach will make use of the next Maven plugins to create the Maven repository in offline mode:
 
@@ -69,7 +66,11 @@ Expected output:
 [main] INFO org.kie.server.services.impl.KieServerImpl - Container kjar-without-parent-1.0-SNAPSHOT (for release id com.sgitario.kjar-examples:kjar-without-parent:1.0-SNAPSHOT) successfully started
 ```
 
-###Using a plugin Maven
+**- Issues: **
+- It requires more manual configuration to specify artifacts (even more complicated when multi-module project
+- Build must be executed in the same node
+
+###Approach 2: Using a plugin Maven
 
 This approach needs an external Maven repository to access the KJAR from. For testing purposes, we deploy a Nexus maven repository by doing:
 
@@ -122,7 +123,10 @@ Expected output:
 [main] INFO org.kie.server.services.impl.KieServerImpl - Container kjar-without-parent-1.0-SNAPSHOT (for release id com.sgitario.kjar-examples:kjar-without-parent:1.0-SNAPSHOT) successfully started
 ```
 
-###Using the dependency plugin
+**- Issues: **
+- We need to build and deploy the KJAR to a Maven repository, and then build the Kie Server to create the final Docker image.
+
+###Approach 3: Using the dependency plugin
 
 This approach will use the dependency plugin in order to first retrieve the dependencies in offline:
 
@@ -149,66 +153,21 @@ Expected output:
 [main] INFO org.kie.server.services.impl.KieServerImpl - Container kjar-without-parent-1.0-SNAPSHOT (for release id com.sgitario.kjar-examples:kjar-without-parent:1.0-SNAPSHOT) successfully started
 ```
 
-### Run in Integration Test
+**- Issues: **
+- Build must be executed in the same node
+- It retrieves all the repository which might be a good thing
 
-Extract the Maven repository from the JAR:
-
-```
-rm -rf BOOT-INF
-jar xf kie-spring-service-multi-kjar/target/kie-spring-boot-example.jar BOOT-INF/classes/m2
-```
-
-Prepare the Maven settings pointing to the BOOT-INF folder, _settings.xml_:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd"
-          xmlns="http://maven.apache.org/SETTINGS/1.1.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <offline>true</offline>
-    <localRepository>/home/jcarvaja/sources/kjar-examples/kjar-examples/BAPL-1531/BOOT-INF/classes/m2/repository</localRepository>
-</settings>
-```
-
-When doing the previous step, we can quickly check everything is well packaged by simply doing:
-
-```sh
-java -Dkie.maven.settings.custom=/home/jcarvaja/sources/kjar-examples/kjar-examples/BAPL-1531/settings.xml -jar kie-spring-service-multi-kjar/target/kie-spring-boot-example.jar
-```
-
-| kie.maven.settings.custom must point to a full path!
-
-| Note that the kie-spring-service-multi-kjar/target/classes/settings.xml is the local Maven repository settings which is auto generated in the previous step.
-
-This will start a Kie Server, the expected output is:
-
-```sh
-...
-[main] INFO org.kie.server.springboot.samples.KieServerDeployer - already deployed KieContainerResource [containerId=evaluation-kjar-2_0-SNAPSHOT, releaseId=com.sgitario.kjar-examples:evaluation:2.0-SNAPSHOT, resolvedReleaseId=com.sgitario.kjar-examples:evaluation:2.0-SNAPSHOT, status=STARTED]
-...
-[main] INFO org.kie.server.springboot.samples.KieServerDeployer - already deployed KieContainerResource [containerId=evaluation-kjar-1_0-SNAPSHOT, releaseId=com.sgitario.kjar-examples:evaluation:1.0-SNAPSHOT, resolvedReleaseId=com.sgitario.kjar-examples:evaluation:1.0-SNAPSHOT, status=STARTED]
-...
-```
-
-### Run into a standalone kie server
-
-Start a local Kie Server instance:
-
-```sh
-git clone https://github.com/kiegroup/droolsjbpm-integration
-cd droolsjbpm-integration/kie-spring-boot/kie-spring-boot-samples/kie-server-spring-boot-sample
-mvn clean spring-boot:run
-```
-
-TODO 
-
-## Issues
+## Bugs
 
 - The plugin "kie-maven-plugin" is not configured to be run in Eclipse (see similar in Kogito maven plugin: https://issues.redhat.com/browse/KOGITO-1786)
-- The "Using a plugin Maven" approach didn't work for me
 
 ## Source Projects
 
 - Evaluation KJar 1: https://github.com/kie-springboot/evaluation-process-kjar
 - Evaluation KJar 2: https://github.com/kie-springboot/evaluation-process-kjar-2
 - Search Var Extension (query-ext): https://github.com/kie-springboot/jbpm-search-var-extension
+
+## Conclusion
+
+If the build of KJAR and the Kie Server image will occur at the same time and instance, it's easier to do this using the **approach 3** (rather than **approach 1** which requires more configuration).
+If we need to build first the KJAR and then the Kie Server separately, the only way is via the **approach 2**. 
