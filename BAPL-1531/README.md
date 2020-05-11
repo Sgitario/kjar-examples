@@ -84,15 +84,10 @@ This approach will use the dependency plugin in order to first retrieve the depe
 mvn -Dmaven.repo.local=repository -Poffline dependency:go-offline clean install
 ```
 
- And we compile our sources using this offline repository:
-
-```sh
-mvn -Dmaven.repo.local=repository -Poffline 
-```
-
 In order to create the Docker image:
 
 ```sh
+sh docker/prepare_repository.sh repository
 docker build -t kie_server_offline -f Dockerfile.offline .
 ```
 
@@ -102,27 +97,10 @@ And run the image:
 docker run kie_server_offline
 ```
 
-
-### Sanity Checks
-
-Let's see the content of our FatJar **kie-spring-boot-example.jar**:
+Expected output:
 
 ```sh
-ls -R kie-spring-service-multi-kjar/target/classes/m2/repository | grep kjar-examples
-kjar-examples
-```
-
-Expected output (depending on the KJAR you deployed):
-
-```sh
-BOOT-INF/classes/m2/repository/com/sgitario/kjar-examples/xxx/
-...
-```
-
-In order to continue, let's delete the child KJar dependencies from our local instance to ensure we're using the right location packaged inside **kie-spring-boot-example-jar**:
-
-```sh
-rm -rf ${HOME}/.m2/repository/com/sgitario/kjar-examples
+[main] INFO org.kie.server.services.impl.KieServerImpl - Container kjar-without-parent-1.0-SNAPSHOT (for release id com.sgitario.kjar-examples:kjar-without-parent:1.0-SNAPSHOT) successfully started
 ```
 
 ### Run in Integration Test
