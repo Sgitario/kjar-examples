@@ -13,6 +13,7 @@ I need to test each approach and deploy it **locally** and also **in Openshift**
 ## Requirements
 - Maven
 - Java 8
+- Docker
 - offliner-maven-plugin:
 
 ```sh
