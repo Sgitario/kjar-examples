@@ -21,9 +21,12 @@
 
     <kjar.artifactId>kjar-without-parent</kjar.artifactId>
     <kjar.version>1.0-SNAPSHOT</kjar.version>
+    
+    <jackson-databind.version>2.9.10.1-redhat-00001</jackson-databind.version>
+    <!-- 2.9.10.1-redhat-00001 -->
   </properties>
 
-  <dependencyManagement>
+  <dependencyManagement> 
     <dependencies>
       <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -194,6 +197,10 @@
           <groupId>javax.ws.rs</groupId>
           <artifactId>jsr311-api</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -231,6 +238,10 @@
         <exclusion>
           <groupId>org.slf4j</groupId>
           <artifactId>jcl-over-slf4j</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

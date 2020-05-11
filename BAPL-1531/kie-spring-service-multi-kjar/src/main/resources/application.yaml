@@ -1,7 +1,7 @@
 ---
 amqphub:
   amqp10jms:
-    remote-url: "amqp://127.0.0.1:5672"
+    remote-url: "amqp://localhost:5672"
 cxf:
   path: /rest
 deployment:
