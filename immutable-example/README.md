@@ -1,4 +1,4 @@
-# BAPL-1531: Immutable SpringBoot Deployment
+# Immutable SpringBoot Deployment
 
 The root issue is that the customer infrastructure does not have any artifactory/nexus to download the KJAR from
 So we need to provide a way to deploy KJAR with all the dependencies inside
