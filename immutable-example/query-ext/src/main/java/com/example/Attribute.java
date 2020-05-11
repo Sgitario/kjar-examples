@@ -1,0 +1,7 @@
+package com.example;
+
+public enum Attribute {
+
+	PROCESS_INSTANCE_ID, ACTUAL_OWNER, POTENTIAL_OWNER, BUSINESS_KEY, PROCESS_ID,TASK_NAME
+
+}
