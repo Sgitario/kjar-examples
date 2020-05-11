@@ -74,14 +74,33 @@ Expected output:
 mvn clean install -PusingPlugin
 ```
 
-Not working... Still in progress...
+| This approach only works whether the KJAR child module is published in a public Maven repository.
+
+In order to create the Docker image:
+
+```sh
+sh docker/prepare_repository.sh repository
+docker build -t kie_server_offline -f Dockerfile.offline .
+```
+
+And run the image:
+
+```sh
+docker run kie_server_offline
+```
+
+Expected output:
+
+```sh
+[main] INFO org.kie.server.services.impl.KieServerImpl - Container kjar-without-parent-1.0-SNAPSHOT (for release id com.sgitario.kjar-examples:kjar-without-parent:1.0-SNAPSHOT) successfully started
+```
 
 ###Using the dependency plugin
 
 This approach will use the dependency plugin in order to first retrieve the dependencies in offline:
 
 ```sh
-mvn -Dmaven.repo.local=repository -Poffline dependency:go-offline clean install
+mvn -Dmaven.repo.local=repository -Poffline clean install
 ```
 
 In order to create the Docker image:

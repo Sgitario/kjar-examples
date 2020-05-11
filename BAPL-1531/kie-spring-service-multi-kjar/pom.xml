@@ -117,9 +117,9 @@
                 <configuration>
                   <settingsFile>/home/jcarvaja/sources/kjar-examples/kjar-examples/BAPL-1531/settings.xml</settingsFile>
                   <artifacts>
-                    <gav>com.sgitario.kjar-examples:${kjar.artifactId}:${kjar.version}</gav>
+                    <gav>com.sgitario.kjar-examples:kjar-without-parent:kjar:1.0-SNAPSHOT</gav>
                   </artifacts>
-                  <outputDirectory>${build.directory}/classes/m2/repository</outputDirectory>
+                  <outputDirectory>../repository</outputDirectory>
                 </configuration>
               </execution>
             </executions>
