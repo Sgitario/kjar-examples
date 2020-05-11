@@ -12,7 +12,7 @@ ENV MAVEN_CONFIG "/root/.m2"
 
 # copy maven settings and repository
 COPY repository $MAVEN_CONFIG/repository
-COPY docker/settings_offline.xml $MAVEN_CONFIG/settings.xml
+COPY utils/settings_offline.xml $MAVEN_CONFIG/settings.xml
 
 # copy application
 COPY kie-spring-service-multi-kjar/target/kie-spring-boot-example.jar /app.jar

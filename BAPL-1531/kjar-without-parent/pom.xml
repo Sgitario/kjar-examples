@@ -4,14 +4,14 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <groupId>com.sgitario.kjar-examples</groupId>
   <artifactId>kjar-without-parent</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>kjar</packaging>
   <name>KJAR without parent</name>
   <description>Getting started Business Process for evaluating employees</description>
-  
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -27,7 +27,7 @@
     <ba.bom.version>7.6.0.redhat-00004</ba.bom.version>
     <slf4j.version>1.7.25.redhat-00001</slf4j.version>
   </properties>
-  
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -39,6 +39,25 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <id>offline</id>
+    </profile>
+    <profile>
+      <id>projectRepository</id>
+    </profile>
+    <profile>
+      <id>usingPlugin</id>
+
+      <distributionManagement>
+        <snapshotRepository>
+          <id>nexus-docker</id>
+          <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+  </profiles>
 
   <dependencies>
     <dependency>

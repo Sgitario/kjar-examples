@@ -52,7 +52,7 @@ This command will prepare the offline Maven repository with the **KJAR** child p
 In order to create the Docker image:
 
 ```sh
-sh docker/prepare_repository.sh kie-spring-service-multi-kjar/target/classes/m2/repository
+sh utils/prepare_repository.sh kie-spring-service-multi-kjar/target/classes/m2/repository
 docker build -t kie_server_project_repository -f Dockerfile.projectRepository .
 ```
 
@@ -70,7 +70,33 @@ Expected output:
 
 ###Using a plugin Maven
 
+This approach needs an external Maven repository to access the KJAR from. For testing purposes, we deploy a Nexus maven repository by doing:
+
 ```sh
+docker run -d -p 8081:8081 --name nexus sonatype/nexus:oss
+```
+
+Add the nexus credentials to our _settings.xml_ maven configuration file:
+
+```xml
+<server>
+    <id>nexus-docker</id>
+    <username>admin</username>
+    <password>admin123</password>
+</server>
+```
+
+Then, let's deploy our KJAR module:
+
+```sh
+cd kjar-without-parent
+kjar-without-parent> mvn clean deploy -PusingPlugin
+```
+
+And then we can build our Kie Server instance:
+
+```sh
+cd .. (root parent)
 mvn clean install -PusingPlugin
 ```
 
@@ -79,14 +105,14 @@ mvn clean install -PusingPlugin
 In order to create the Docker image:
 
 ```sh
-sh docker/prepare_repository.sh repository
-docker build -t kie_server_offline -f Dockerfile.offline .
+sh utils/prepare_repository.sh repository
+docker build -t kie_server_with_plugin -f Dockerfile.offline .
 ```
 
 And run the image:
 
 ```sh
-docker run kie_server_offline
+docker run kie_server_with_plugin
 ```
 
 Expected output:
@@ -106,7 +132,7 @@ mvn -Dmaven.repo.local=repository -Poffline clean install
 In order to create the Docker image:
 
 ```sh
-sh docker/prepare_repository.sh repository
+sh utils/prepare_repository.sh repository
 docker build -t kie_server_offline -f Dockerfile.offline .
 ```
 

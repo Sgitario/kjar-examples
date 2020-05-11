@@ -26,7 +26,6 @@
   </properties>
 
   <modules>
-    <module>kjar-with-parent</module>
     <module>kjar-without-parent</module>
     <module>query-ext</module>
     <module>kie-spring-service-multi-kjar</module>

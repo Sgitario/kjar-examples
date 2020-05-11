@@ -29,6 +29,25 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  
+  <profiles>
+    <profile>
+      <id>offline</id>
+    </profile>
+    <profile>
+      <id>projectRepository</id>
+    </profile>
+    <profile>
+      <id>usingPlugin</id>
+
+      <distributionManagement>
+        <snapshotRepository>
+          <id>nexus-docker</id>
+          <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+  </profiles>
 
   <dependencies>
     <dependency>

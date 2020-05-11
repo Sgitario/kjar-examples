@@ -115,11 +115,11 @@
                   <goal>offliner</goal>
                 </goals>
                 <configuration>
-                  <settingsFile>/home/jcarvaja/sources/kjar-examples/kjar-examples/BAPL-1531/settings.xml</settingsFile>
+                  <settingsFile>utils/settings_nexus_docker.xml</settingsFile>
                   <artifacts>
-                    <gav>com.sgitario.kjar-examples:kjar-without-parent:kjar:1.0-SNAPSHOT</gav>
+                    <gav>com.sgitario.kjar-examples:${kjar.artifactId}:${kjar.version}</gav>
                   </artifacts>
-                  <outputDirectory>../repository</outputDirectory>
+                  <outputDirectory>repository</outputDirectory>
                 </configuration>
               </execution>
             </executions>
